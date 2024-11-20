@@ -1,8 +1,41 @@
+# Gradio cho giao diện WebUI
 gradio
-numpy
+
+# Xử lý toán học và hình ảnh
+numpy==1.24.4
+scipy==1.14.1
+matplotlib==3.9.2
+opencv-python==4.10.0.84
+pillow==11.0.0
+
+# PyTorch và các thư viện liên quan
+torch==1.12.1+cpu
+torchvision==0.13.1+cpu
+
+# Các công cụ bổ trợ
 openmim
 omegaconf==2.3.0
 einops==0.6.0
 transformers==4.27.3
+
+# PyTorch Lightning cho Stable Diffusion
 pytorch-lightning==2.0.1.post0
 diffusers==0.14.0
+
+# Thư viện chính của dự án
+mmengine==0.10.5
+mmcv==2.0.0rc4
+mmdet==3.0.0rc5
+mmcls==1.0.0rc5
+mmocr==1.0.1
+
+# Segment Anything Model
+git+https://github.com/facebookresearch/segment-anything.git
+
+# Bổ trợ xử lý dữ liệu và khác
+tqdm==4.65.2
+pycocotools==2.0.8
+shapely==2.0.6
+jsonschema==4.19.0
+typing-extensions==4.12.2
+pyyaml==6.0.2
