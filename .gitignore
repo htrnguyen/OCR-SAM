@@ -11,4 +11,4 @@ test_out.png
 .vscode/
 segment-anything-main/
 DataFood/
-data/
+data/vietnamese_dataset/InkData_line_processed
