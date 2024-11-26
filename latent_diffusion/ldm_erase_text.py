@@ -43,12 +43,12 @@ def make_batch(image, mask_pil_image, img_size, device):
 
 
 def erase_text_from_image(img_path,
-                          mask_pil_img,
-                          model,
-                          device,
-                          opt,
-                          img_size=None,
-                          steps=None):
+                        mask_pil_img,
+                        model,
+                        device,
+                        opt,
+                        img_size=None,
+                        steps=None):
     sampler = DDIMSampler(model)
     with torch.no_grad():
         with model.ema_scope():
