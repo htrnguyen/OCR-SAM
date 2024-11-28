@@ -1,209 +1,177 @@
+# 🖼️ **OCR-SAM: Packaging Information Extraction** 📦
+
 ![](imgs/logo.png)
 
-# Optical Character Recognition with Segment Anything (OCR-SAM)
+This repository is an extension of the original [OCR-SAM project](https://github.com/yeungchenwa/OCR-SAM), designed to extract key packaging information such as:
 
-## 🐇 Introduction 🐙
-Can [SAM](https://github.com/facebookresearch/segment-anything) be applied to OCR? We take a simple try to combine two off-the-shelf OCR models in [MMOCR](https://github.com/open-mmlab/mmocr) with SAM to develop some OCR-related application demos, including **[SAM for Text](#sam-for-text)**, **[Text Removal](#erasing)** and **[Text Inpainting](#inpainting)**. And we also provide a **[WebUI by gradio](#run-webui)** to give a better interaction.  
+-   **Product Name**
+-   **Brand**
+-   **Manufacturing Date**
+-   **Expiration Date**
+-   **Weight**
 
-## 📅 Updates 👀
-- **2023.08.23**: 🔥 We create a repo **[yeungchenwa/Recommendations-Diffusion-Text-Image](https://github.com/yeungchenwa/Recommendations-Diffusion-Text-Image)** to provide a paper collection of recent diffusion models for text-image generation tasks.
-- **2023.04.14**: 📣 Our repository is migrated to **[open-mmlab/playground](https://github.com/open-mmlab/playground#-mmocr-sam)**.
-- **2023.04.12**: Repository Release
-- **2023.04.12**: Supported the **[Inpainting](#inpainting🥸)** combined with DBNet++, SAM and Stable-Diffusion.
-- **2023.04.11**: Supported the **[Erasing](#erasing🤓)** combined with DBNet++, SAM and Latent-Diffusion / Stable-Diffusion.
-- **2023.04.10**: Supported the **[SAM for text](#sam-for-text🧐)** combined tieh DBNet++ and SAM.
-- **2023.04.09**: How effective is the SAM used on OCR Text Image, we've discussed it in the **[Blog](https://www.zhihu.com/question/593914819/answer/2976012032)**.
+Using a combination of **OCR** and **SAM**, it simplifies text detection and recognition for packaging, with a focus on **Vietnamese datasets**.
 
-## 📸 Demo Zoo 🔥
+---
 
-This project includes:
-- [x] [SAM for Text](#sam-for-text🧐): DBNet++ + SAM
-![](imgs/sam_vis.png)
-- [x] [Erasing](#erasing🤓): DBNet++ + SAM + Latent-Diffusion / Stable Diffusion 
-![](imgs/erase_vis.png)
-- [x] [Inpainting](#inpainting🥸): DBNet++ + SAM + Stable Diffusion
-![](imgs/inpainting_vis.png)
+## 📸 **Overview** 🔥
 
+OCR-SAM integrates:
 
-## 🚧 Installation 🛠️
-### Prerequisites(Recommended)
+-   🌟 **[SAM (Segment Anything Model)](https://github.com/facebookresearch/segment-anything)**: A cutting-edge model for segmentation.
+-   📖 **[MMOCR](https://github.com/open-mmlab/mmocr)**: A versatile OCR library for text recognition.
 
-- Linux | Windows
-- Python 3.8
-- Pytorch 1.12
-- CUDA 11.3
+This repository improves on the original by:
 
-### Environment Setup
-Clone this repo:
+1. **Optimizing for packaging information** with a streamlined focus.
+2. Providing accurate **text detection and recognition** for essential fields:
+    - Product Name, Brand, Dates, and Weight.
+
+---
+
+## 🚀 **Installation** 🛠️
+
+### Prerequisites 📋
+
+-   Python 3.8+
+-   PyTorch 1.12+
+-   CUDA 11.3+
+-   Linux or Windows OS.
+
+### Step-by-step Setup 🧰
+
+1️⃣ **Clone the repository**:
+
 ```bash
-git clone https://github.com/yeungchenwa/OCR-SAM.git
+git clone https://github.com/htrnguyen/OCR-SAM
+cd OCR-SAM
 ```
-**Step 0**: Download and install Miniconda from the [official website](https://docs.conda.io/en/latest/miniconda.html).  
 
-**Step 1**: Create a conda environment and activate it.
+2️⃣ **Create a virtual environment**:
+
 ```bash
-conda create -n ocr-sam python=3.8 -y
+conda create -n ocr-sam python=3.10 -y
 conda activate ocr-sam
 ```
-**Step 2**: Install related version Pytorch following [here](https://pytorch.org/get-started/previous-versions/).
+
+3️⃣ **Install dependencies**:
+
 ```bash
-# Suggested
-pip install torch==1.12.1+cu113 torchvision==0.13.1+cu113 --extra-index-url https://download.pytorch.org/whl/cu113
-```
-**Step 3**: Install the mmengine, mmcv, mmdet, mmcls, mmocr.
-```bash
-pip install -U openmim
-mim install mmengine
-mim install mmocr
-# In Window, the following symbol ' should be changed to "
-mim install 'mmcv==2.0.0rc4'
-mim install 'mmdet==3.0.0rc5'
-mim install 'mmcls==1.0.0rc5'
-
-
-# Install sam
-pip install git+https://github.com/facebookresearch/segment-anything.git
-
-# Install required packages
 pip install -r requirements.txt
 ```
 
-**Step 4**: Prepare for the diffusers and latent-diffusion.
-```bash
-# Install Gradio
-pip install gradio
+---
 
-# Install the diffusers
-pip install diffusers
+## 📒 **Model Checkpoints** 🖥️
 
-# Install the pytorch_lightning for ldm
-pip install pytorch-lightning==2.0.1.post0
-```
+To use OCR-SAM, download the required checkpoints for all components. Follow the instructions below:
 
-## 📒 Model checkpoints 🖥
+### **Step 1: Create a directory for checkpoints**
 
-We retrain DBNet++ with Swin Transformer V2 as the backbone on a combination of multiple scene text datsets (e.g. HierText, TextOCR). **Checkpoint for DBNet++ on [Google Drive (1G)](https://drive.google.com/file/d/1r3B1xhkyKYcQ9SR7o9hw9zhNJinRiHD-/view?usp=share_link)**.  
-
-And you should make dir following:  
 ```bash
 mkdir checkpoints
 mkdir checkpoints/mmocr
 mkdir checkpoints/sam
 mkdir checkpoints/ldm
-mv db_swin_mix_pretrain.pth checkpoints/mmocr
 ```
 
-Download the rest of the checkpoints to the related path (If you've done so, ignore the following):
+### **Step 2: Download the checkpoints**
+
+1. 🟢 **DBNet++ with Swin Transformer V2** (Scene Text Detection):  
+   [Download here (Google Drive)](https://drive.google.com/file/d/1r3B1xhkyKYcQ9SR7o9hw9zhNJinRiHD-/view)  
+   Move it to `checkpoints/mmocr`:
+
+    ```bash
+    mv db_swin_mix_pretrain.pth checkpoints/mmocr
+    ```
+
+2. 🔵 **MMOCR Recognizer Checkpoint (ABINet)**:
+
+    ```bash
+    wget -O checkpoints/mmocr/abinet_20e_st-an_mj_20221005_012617-ead8c139.pth https://download.openmmlab.com/mmocr/textrecog/abinet/abinet_20e_st-an_mj/abinet_20e_st-an_mj_20221005_012617-ead8c139.pth
+    ```
+
+3. 🟡 **SAM Checkpoint** (ViT-H):  
+   [More details here.](https://github.com/facebookresearch/segment-anything#model-checkpoints)
+
+    ```bash
+    wget -O checkpoints/sam/sam_vit_h_4b8939.pth https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth
+    ```
+
+4. 🟠 **Latent Diffusion Model Checkpoint** _(Optional)_:
+    ```bash
+    wget -O checkpoints/ldm/last.ckpt https://heibox.uni-heidelberg.de/f/4d9ac7ea40c64582b7c9/?dl=1
+    ```
+
+---
+
+## 🏃‍♂️ **Usage** 💻
+
+### **Run the Application** 🖼️
+
+Extract packaging information from an image:
+
 ```bash
-
-# mmocr recognizer ckpt
-wget -O checkpoints/mmocr/abinet_20e_st-an_mj_20221005_012617-ead8c139.pth https://download.openmmlab.com/mmocr/textrecog/abinet/abinet_20e_st-an_mj/abinet_20e_st-an_mj_20221005_012617-ead8c139.pth
-
-# sam ckpt, more details: https://github.com/facebookresearch/segment-anything#model-checkpoints
-wget -O checkpoints/sam/sam_vit_h_4b8939.pth https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth
-
-# ldm ckpt
-wget -O checkpoints/ldm/last.ckpt https://heibox.uni-heidelberg.de/f/4d9ac7ea40c64582b7c9/?dl=1
+python app.py --inputs /path/to/image.jpg --output_dir /path/to/output --device cuda
 ```
 
-## 🏃🏻‍♂️ Run Demo 🏊‍♂️
+-   **`--inputs`**: Path to the input image.
+-   **`--output_dir`**: Directory where results (text and annotated images) will be saved.
+-   **`--device`**: Run on `cuda` (GPU) or `cpu`.
 
-### **SAM for Text**🧐
+---
 
-Run the following script:
+### **Run Notebook** 📓
+
+For an interactive demo, use `run.ipynb`:
+
 ```bash
-python mmocr_sam.py \
-    --inputs /YOUR/INPUT/IMG_PATH \ 
-    --outdir /YOUR/OUTPUT_DIR \ 
-    --device cuda \ 
-```
-- `--inputs`: the path to your input image. 
-- `--outdir`: the dir to your output. 
-- `--device`: the device used for inference. 
-
-### **Erasing**🤓
-
-In this application demo, we use the [latent-diffusion-inpainting](https://github.com/CompVis/latent-diffusion#inpainting) to erase, or the [Stable-Diffusion-inpainting](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/inpaint) with text prompt to erase, which you can choose one of both by the parameter `--diffusion_model`. Also, you can choose whether to use the SAM output mask to erase by the parameter `--use_sam`. More implementation **details** are listed [here](docs/erase_details.md)
-
-Run the following script:
-```bash
-python mmocr_sam_erase.py \ 
-    --inputs /YOUR/INPUT/IMG_PATH \ 
-    --outdir /YOUR/OUTPUT_DIR \ 
-    --device cuda \ 
-    --use_sam True \ 
-    --dilate_iteration 2 \ 
-    --diffusion_model \ 
-    --sd_ckpt None \ 
-    --prompt None \ 
-    --img_size (512, 512) \ 
-```
-- `--inputs `: the path to your input image.
-- `--outdir`: the dir to your output. 
-- `--device`: the device used for inference. 
-- `--use_sam`: whether to use sam for segment.
-- `--dilate_iteration`: iter to dilate the SAM's mask.
-- `--diffusion_model`: choose 'latent-diffusion' or 'stable-diffusion'.
-- `--sd_ckpt`: path to the checkpoints of stable-diffusion.
-- `--prompt`: the text prompt when use the stable-diffusion, set 'None' if use the default for erasing.
-- `--img_size`: image size of latent-diffusion.  
-
-**Run the WebUI**: see [here](#📺-run-webui-📱)
-
-**Note: The first time you run may cost some time, because downloading the stable-diffusion ckpt costs a lot, so wait patiently👀**
-
-### **Inpainting**
-More implementation **details** are listed [here](docs/inpainting_details.md)
-
-Run the following script:
-```bash
-python mmocr_sam_inpainting.py \
-    --img_path /YOUR/INPUT/IMG_PATH \ 
-    --outdir /YOUR/OUTPUT_DIR \ 
-    --device cuda \ 
-    --prompt YOUR_PROMPT \ 
-    --select_index 0 \ 
-```
-- `--img_path`: the path to your input image. 
-- `--outdir`: the dir to your output. 
-- `--device`: the device used for inference. 
-- `--prompt`: the text prompt.
-- `--select_index`: select the index of the text to inpaint.
-
-### **Run WebUI**
-This repo also provides the WebUI(decided by gradio), including the Erasing and Inpainting.  
-
-Before running the script, you should install the gradio package:
-```bash
-pip install gradio
+jupyter notebook run.ipynb
 ```
 
-#### Erasing
-```bash
-python mmocr_sam_erase_app.py
+---
+
+### **Output** 📤
+
+The application outputs:
+
+1. **Recognized Text Fields**: Saved in JSON format.
+2. **Annotated Images**: Text regions highlighted with bounding boxes.
+
+---
+
+## 🏗️ **Repository Structure** 📂
+
+```plaintext
+OCR-SAM/
+├── app.py                 # Main application script
+├── data/                  # Input images
+├── docs/                  # Documentation
+├── imgs/                  # Example images
+├── mmocr_dev/             # Custom MMOCR configurations
+├── mmocr_sam.py           # OCR-SAM integration script
+├── requirements.txt       # Python dependencies
+├── run.ipynb              # Interactive demo
+├── run.py                 # Batch processing script
+├── train.ipynb            # Fine-tuning notebook
+├── checkpoints/           # Model checkpoints directory
+└── OUTPUT/                # Results directory
 ```
-- **Example**:  
 
-**Detector and Recognizer WebUI Result**
-![](imgs/webui_detect_vis.png) 
+---
 
-**Erasing WebUI Result**
-![](imgs/webui_erase_visit.png)  
+## 📚 **References** 🔗
 
-In our WebUI, users can interactly choose the SAM output and the diffusion model. Especially, users can choose which text to be erased.
+-   **Original OCR-SAM**: [https://github.com/htrnguyen/OCR-SAM](https://github.com/htrnguyen/OCR-SAM)
+-   **SAM (Segment Anything Model)**: [https://github.com/facebookresearch/segment-anything](https://github.com/facebookresearch/segment-anything)
+-   **MMOCR**: [https://github.com/open-mmlab/mmocr](https://github.com/open-mmlab/mmocr)
 
-#### Inpainting🥸
-```bash
-python mmocr_sam_inpainting_app.py
-```
-- Example:  
+---
 
-**Inpainting WebUI Result**
-![](imgs/webui_inpainting_vis.png)
+## ❤️ **Acknowledgments** 🙌
 
-**Note: Before you open the web, it may take some time, so wait patiently👀** 
+This project builds upon the incredible work of:
 
-## 💗 Acknowledgement
-- [segment-anything](https://github.com/facebookresearch/segment-anything)
-- [latent-diffusion](https://github.com/CompVis/latent-diffusion)
-- [mmocr](https://github.com/open-mmlab/mmocr)
+-   🧠 [Facebook AI](https://github.com/facebookresearch/segment-anything) for SAM.
+-   📖 [OpenMMLab](https://github.com/open-mmlab/mmocr) for MMOCR.
+-   🌟 [OCR-SAM](https://github.com/htrnguyen/OCR-SAM) for the original integration.
