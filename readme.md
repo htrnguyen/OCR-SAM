@@ -162,7 +162,7 @@ OCR-SAM/
 
 ## 📚 **References** 🔗
 
--   **Original OCR-SAM**: [https://github.com/htrnguyen/OCR-SAM](https://github.com/htrnguyen/OCR-SAM)
+-   **Original OCR-SAM**: [https://github.com/yeungchenwa/OCR-SAM](https://github.com/yeungchenwa/OCR-SAM)
 -   **SAM (Segment Anything Model)**: [https://github.com/facebookresearch/segment-anything](https://github.com/facebookresearch/segment-anything)
 -   **MMOCR**: [https://github.com/open-mmlab/mmocr](https://github.com/open-mmlab/mmocr)
 
