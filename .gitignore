@@ -10,6 +10,7 @@ output.png
 test_out.png
 .vscode/
 segment-anything-main/
+OUTPUT/
 data/DataFood/
 data/Test
 data/vietnamese_dataset/InkData_line_processed
