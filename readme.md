@@ -112,7 +112,7 @@ mkdir checkpoints/ldm
 Extract packaging information from an image:
 
 ```bash
-python app.py --inputs /path/to/image.jpg --output_dir /path/to/output --device cuda
+python mmocr_sam.py --inputs /path/to/image.jpg --output_dir /path/to/output --device cuda
 ```
 
 -   **`--inputs`**: Path to the input image.
@@ -174,4 +174,4 @@ This project builds upon the incredible work of:
 
 -   🧠 [Facebook AI](https://github.com/facebookresearch/segment-anything) for SAM.
 -   📖 [OpenMMLab](https://github.com/open-mmlab/mmocr) for MMOCR.
--   🌟 [OCR-SAM](https://github.com/htrnguyen/OCR-SAM) for the original integration.
+-   🌟 [OCR-SAM](https://github.com/yeungchenwa/OCR-SAM) for the original integration.
