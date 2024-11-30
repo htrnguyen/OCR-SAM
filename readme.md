@@ -112,11 +112,11 @@ mkdir checkpoints/ldm
 Extract packaging information from an image:
 
 ```bash
-python mmocr_sam.py --inputs /path/to/image.jpg --output_dir /path/to/output --device cuda
+python mmocr_sam.py --inputs /path/to/image.jpg --outdir /path/to/output --device cuda
 ```
 
 -   **`--inputs`**: Path to the input image.
--   **`--output_dir`**: Directory where results (text and annotated images) will be saved.
+-   **`--outdir`**: Directory where results (text and annotated images) will be saved.
 -   **`--device`**: Run on `cuda` (GPU) or `cpu`.
 
 ---

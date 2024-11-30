@@ -119,6 +119,7 @@ if __name__ == "__main__":
             np.array([poly2bbox(poly) for poly in det_polygons]),
             device=sam_predictor.device,
         )
+        
         transformed_boxes = sam_predictor.transform.apply_boxes_torch(
             det_bboxes, img.shape[:2]
         )
@@ -133,9 +134,12 @@ if __name__ == "__main__":
         )
         # Show results
         plt.figure(figsize=(10, 10))
+        
         # convert img to RGB
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        
         plt.imshow(img)
+        
         for mask, rec_text, polygon in zip(masks, rec_texts, det_polygons):
             show_mask(mask.cpu(), plt.gca(), random_color=True)
             polygon = np.array(polygon).reshape(-1, 2)
@@ -143,6 +147,7 @@ if __name__ == "__main__":
             polygon = np.concatenate([polygon, polygon[:1]], axis=0)
             plt.plot(polygon[:, 0], polygon[:, 1], color="r", linewidth=2)
             plt.text(polygon[0, 0], polygon[0, 1], rec_text, color="r")
+            
         if args.show:
             plt.show()
         plt.savefig(os.path.join(args.outdir, f"{i}.png"))
